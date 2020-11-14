@@ -7,7 +7,7 @@ window.onload = function(){
     menu_btn.addEventListener('click', menu)
     menu_remove_btn.addEventListener('click', removeMenu)
     document.addEventListener('keyup', send)
-    function send(event){
+    function send(event){ 
         if(event.keyCode == '13'){
         var input = document.getElementById("text")
         var text = input.value
