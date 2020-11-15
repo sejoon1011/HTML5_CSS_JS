@@ -7,6 +7,21 @@ window.onload = function(){
     //전송
     socket.emit('join', {roomName : roomName})
     socket.emit('updateMessage', {comment:name})
+    socket.on('members', function(members){
+        console.log('test')
+        var li = null
+        var ul = document.querySelector('#menu #members')
+        for(var i = 0; i < members.members.length ; i++){
+            li = document.createElement('li')
+            ul.appendChild(li)
+            if(members.members[i] === name){
+                li.innerHTML = `${members.members[i]}(Me)`
+                continue
+            }
+            li.innerHTML = members.members[i]
+        }
+    })
+
     //데이터 받는 함수
     socket.on('updateMessage', function(data){
         var body = document.querySelector('#body')
@@ -14,6 +29,15 @@ window.onload = function(){
         body.appendChild(p)
         p.style.fontFamily = 'fantasy'
         p.innerHTML = data.message
+        var ul = document.querySelector('#menu #members')
+        ul.style.listStyle = 'none'
+        ul.style.fontFamily = 'fantasy'
+        var li = null
+        //새로운 멤버 추가
+        li = document.createElement('li')
+        ul.appendChild(li)
+        li.innerHTML = data.member
+      
 
     })
     socket.on('message', function(data){
@@ -54,9 +78,10 @@ window.onload = function(){
     }
     function menu(event){
         var menu = document.getElementById('menu')
-        console.log('hello')
+        
         menu.style.display = 'block'
     }
+
     function removeMenu(event){
         var menu = document.getElementById('menu')
         menu.style.display = 'none'
