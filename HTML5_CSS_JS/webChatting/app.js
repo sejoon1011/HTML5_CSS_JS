@@ -24,8 +24,9 @@ io.on('connection', function(socket){
         roomName = data.roomName;
         console.log(roomName)
         socket.join(roomName);
-      })
-
+    })
+    socket.emit('members', {members : names})
+    
 
     socket.on('updateMessage', function(name){
         names[count] = name.comment
@@ -36,7 +37,8 @@ io.on('connection', function(socket){
         var message =` '${name.comment}' participated in the chat`
         socket.in(roomName).emit(`updateMessage`, {
             name : 'server',
-            message : message
+            message : message,
+            member : name
         })
         for(var i = 0; i < names.length; i++){
             console.log(names)
