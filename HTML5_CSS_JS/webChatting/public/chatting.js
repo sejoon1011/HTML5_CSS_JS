@@ -2,23 +2,31 @@ var io = io()
 var socket = io.connect('http://localhost:3000')
 window.onload = function(){
     //server에 유저 이름을 보내주기 위한 입력
-    var name = prompt('Type your name')
+    var name = prompt('Type your nick name')
     var roomName = prompt('room name?')
     //전송
-    socket.emit('join', {roomName : roomName})
+    socket.emit('join', {
+                        roomName : roomName,
+                        room_name: name
+                    })
     socket.emit('updateMessage', {comment:name})
-    socket.on('members', function(members){
-        console.log('test')
+
+    socket.on('members', function(member){
+        console.log('test1011234521')
+        console.log(member[0].room_name)
         var li = null
         var ul = document.querySelector('#menu #members')
-        for(var i = 0; i < members.members.length ; i++){
-            li = document.createElement('li')
-            ul.appendChild(li)
-            if(members.members[i] === name){
-                li.innerHTML = `${members.members[i]}(Me)`
-                continue
-            }
-            li.innerHTML = members.members[i]
+        ul.style.listStyle = 'none'
+        ul.style.fontFamily = 'fantasy'
+        for(var i = 0; i < member.length; i++){
+        li = document.createElement('li')
+        ul.appendChild(li)
+        if(member[i].room_name === name){
+            li.innerHTML = `${member[i].room_name}(Me)`
+        }
+        else{
+            li.innerHTML = member[i].room_name
+                }
         }
     })
 
@@ -36,6 +44,9 @@ window.onload = function(){
         //새로운 멤버 추가
         li = document.createElement('li')
         ul.appendChild(li)
+        if(data.member === name){
+            li.innerHTML = data.member + `(me)`
+        }
         li.innerHTML = data.member
       
 
@@ -46,7 +57,7 @@ window.onload = function(){
         body.appendChild(p)
         p.style.backgroundColor = '#ADE23F'
         p.style.borderRadius = '10px 100px 100px 100px'
-        p.innerHTML = data.message
+        p.innerHTML = `<Strong>`+ data.from + "</strong> <br>" + data.message
     })
 
 
@@ -86,13 +97,6 @@ window.onload = function(){
         var menu = document.getElementById('menu')
         menu.style.display = 'none'
     }
-    socket.on('recMsg', function(data){
-        var body = document.querySelector('#body')
-        var p = document.createElement('div')
-        body.appendChild(p)
-        p.style.backgroundColor = '#ADE23F'
-        p.style.borderRadius = '10px 100px 100px 100px'
-
-    })
+    
     
 }
