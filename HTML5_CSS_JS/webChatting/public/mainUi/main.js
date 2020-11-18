@@ -6,7 +6,7 @@ setTimeout(()=>{
 }, 1000)
     var change = document.getElementById('change')
     change.addEventListener('click', setEmailOrNumber)
-    $('#id').keypress(duplicateCheck)
+    $('#id').blur(duplicateCheck)
 
 
     function duplicateCheck(){
@@ -17,9 +17,11 @@ setTimeout(()=>{
                 'id': $('#id').val()
             },
             success: (data) =>{
-                if (data == 1){
-                    
+                console.log(data)
+                if (data.data == 1){
+
                     $('#id').css('background-color', 'red');
+                    $('#id').val('');
                 }else{
                     $('#id').css('background-color', 'green');
                 }

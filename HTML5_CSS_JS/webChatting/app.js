@@ -11,6 +11,7 @@ const { emit } = require('process')
 var io = socket(server)
 var port = 3000
 var bodyParser = require('body-parser');
+const { selectId } = require('./db/db.js')
 app.use(bodyParser.urlencoded({ extended: false}));
 var names = new Array()
 var count = 0
@@ -30,7 +31,9 @@ app.get('/join', (req, res) => {
     res.sendFile(__dirname + '/public/mainUi/main.html')
 })
 app.post('/join/checkId', (req, res) =>{
-    console.log(db.selectId(req.body.id))
+    var data= db.selectId(req.body.id)
+    if (data != undefined) res.send({data : 0})
+    else if (data == undefined) res.send({data: 1});
 })
 app.use('/', (req, res) => {
     res.sendFile(__dirname + '/public/first.html')
