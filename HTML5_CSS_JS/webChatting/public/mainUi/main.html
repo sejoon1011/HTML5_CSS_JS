@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The sns</title>
     <link rel="stylesheet" href="main.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src='main.js'></script>
 </head>
 <body>
@@ -17,10 +18,11 @@
     </div>
     
     <div id='body'>
-        <form action="#" id="join">
+        <form action="/join" id="join" method="POST">
             <input type="text" id='id' name="id" placeholder=" ID" required><br>
             <input type="password" id='pw' name="password" placeholder=" password" required><br>
-            <input type="text" id='number' name="number" placeholder=" your number" required><br>
+            <input type="text", id='name', name='name' placeholder='name'><br>
+            <input type="text" id='number' name="numberOrEmail" placeholder=" your number" required><br>
             <a id="change" style='font-family: fantasy;'>I want to use my email instead</a><br>
             <input id='joinSubmit' value="SIGN UP" type="submit">
         </form>

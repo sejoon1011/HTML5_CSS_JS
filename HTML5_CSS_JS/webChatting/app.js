@@ -10,6 +10,8 @@ const path = require('path')
 const { emit } = require('process')
 var io = socket(server)
 var port = 3000
+var bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: false}));
 var names = new Array()
 var count = 0
 var roomName = null
@@ -17,13 +19,41 @@ var room_name = new Array()//사용자가 어떤 방에 있는지 식별하기 �
 app.set('port', process.env.PORT || 3000) 
 //chatting ui 가져오기
 app.use(express.static(path.join(__dirname, 'public/chattingUi')))
+app.use(express.static(path.join(__dirname, 'public/mainUi')))
 app.use(express.static(path.join(__dirname, 'node_modules')))
 
 var connection = db.connect();
-db.selectAll(connection)
-app.use('/', (req, res) => {
-    res.sendFile(__dirname + '/public/chattingUi/main.html')
+// app.use('/', (req,res) =>{
+//     res.sendFile(__dirname + '/public/first.html')
+// })
+app.get('/join', (req, res) => {
+    res.sendFile(__dirname + '/public/mainUi/main.html')
 })
+app.post('/join/checkId', (req, res) =>{
+    console.log(db.selectId(req.body.id))
+})
+app.use('/', (req, res) => {
+    res.sendFile(__dirname + '/public/first.html')
+})
+app.use('/chatting',(req, res) =>{
+     res.sendFile(__dirname + '/public/chattingUi/chatting.html')
+    //res.render(__dirname + '/public/chattingUi/chatting.html')
+})
+
+app.post('/join',(req, res) => {
+    console.log('this is testsssssss')
+    var regEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/ ;
+    var regNumber = /^[0-9]*$/;
+    console.log(req.body.id)
+    if(regEmail.test(req.body.numberOrEmail)){
+        console.log('req.')
+      db.insertUser(req.body.id, req.body.pw, req.body.numberOrEmail, null)
+    }
+    else if(regNumber.test(req.body.numberOrEmail)){
+        db.insertUser(req.body.id, req.body.pw, req.body.name, null, req.body.numberOrEmail)
+    }
+    })  
+
 
 io.on('connection', function(socket){
     
