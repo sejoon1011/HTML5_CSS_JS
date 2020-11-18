@@ -7,6 +7,7 @@ const router = express.Router()
 const server = http.Server(app)
 const socket = require('socket.io')
 const path = require('path')
+const socketSession = {}; 
 const { emit } = require('process')
 var io = socket(server)
 var port = 3000
@@ -31,14 +32,15 @@ app.get('/join', (req, res) => {
     res.sendFile(__dirname + '/public/mainUi/main.html')
 })
 app.post('/join/checkId', (req, res) =>{
-    var data= db.selectId(req.body.id)
-    if (data != undefined) res.send({data : 0})
-    else if (data == undefined) res.send({data: 1});
+    var data = db.selectId(req.body.id)
+    console.log(data)
+    if (data != undefined) res.send({data : 1})
+    else if (data == undefined) res.send({data: 0});
 })
-app.use('/', (req, res) => {
+app.get('/', (req, res) => {
     res.sendFile(__dirname + '/public/first.html')
 })
-app.use('/chatting',(req, res) =>{
+app.get('/chatting',(req, res) =>{
      res.sendFile(__dirname + '/public/chattingUi/chatting.html')
     //res.render(__dirname + '/public/chattingUi/chatting.html')
 })
@@ -49,7 +51,6 @@ app.post('/join',(req, res) => {
     var regNumber = /^[0-9]*$/;
     console.log(req.body.id)
     if(regEmail.test(req.body.numberOrEmail)){
-        console.log('req.')
       db.insertUser(req.body.id, req.body.pw, req.body.numberOrEmail, null)
     }
     else if(regNumber.test(req.body.numberOrEmail)){
@@ -61,17 +62,17 @@ app.post('/join',(req, res) => {
 io.on('connection', function(socket){
     
     socket.on('join', (data) => {
-        for(var i = 0 ; i < room_name.length; i++){
-            if(room_name[i].room_name == data.room_name)
-                socket.emit('reJoin', {message : 'this name already exists'})
-                return
-            }
+        //for(var i = 0 ; i < room_name.length; i++){
+        //    if(room_name[i].room_name == data.room_name)
+        //        socket.emit('reJoin', {message : 'this name already exists'})
+        //        return
+        //    }
         roomName = data.roomName
-        socket.join(roomName)
         room_name[count] = {
             roomName : roomName,
             room_name : data.room_name
         }
+        socketSession[data.room_name] = socket.id;
         socket.emit('members', room_name)
     })
 
@@ -81,7 +82,7 @@ io.on('connection', function(socket){
         names[count] = name.comment
         socket.in(roomName).emit('members', {member : names[count]})
         count += 1
-        console.log(`in join ` + name.comment)
+/        console.log(`in join ` + name.comment)
         var message =` '${name.comment}' participated in the chat`
         socket.in(roomName).emit(`updateMessage`, {
             name : 'server',
@@ -93,10 +94,15 @@ io.on('connection', function(socket){
         }
     })
 
+    socket.on('msg', function(msg) {
+        console.log(msg)
+        io.to(socketSession[msg.to]).emit('msg', {
+            name: msg.name,
+            message: msg.message
+        })
+    })
+
     socket.on('SEND', function(msg){
-        console.log(msg.name)
-        console.log(msg.message)
-        console.log(msg.destination)
         socket.in(roomName).emit('message', {
             from : msg.name,
             message : msg.message
