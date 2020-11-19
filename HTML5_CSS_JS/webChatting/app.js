@@ -25,28 +25,33 @@ app.use(express.static(path.join(__dirname, 'public/mainUi')))
 app.use(express.static(path.join(__dirname, 'node_modules')))
 
 var connection = db.connect();
-// app.use('/', (req,res) =>{
-//     res.sendFile(__dirname + '/public/first.html')
-// })
 app.get('/join', (req, res) => {
     res.sendFile(__dirname + '/public/mainUi/main.html')
 })
+//getDataFromDb -> db.selectId -> 
+//connection.query의 익명함수의 파라미터인 콜백함수 사용 -> 프론트엔드로 데이터 전송
 app.post('/join/checkId', (req, res) =>{
-    var data = db.selectId(req.body.id)
-    console.log(data)
-    if (data != undefined) res.send({data : 1})
-    else if (data == undefined) res.send({data: 0});
+    var data  
+    getDataFromDb(res,req.body.id)
 })
+function getDataFromDb(res, id){
+    var data
+    db.selectId(id, (result) => {
+        data = result;
+        console.log(data.length)
+        if (data.length > 0) res.send({data : 1})
+        else if (data.length == 0) res.send({data: 0});
+    })
+}
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/public/first.html')
 })
 app.get('/chatting',(req, res) =>{
      res.sendFile(__dirname + '/public/chattingUi/chatting.html')
-    //res.render(__dirname + '/public/chattingUi/chatting.html')
+    
 })
 
 app.post('/join',(req, res) => {
-    console.log('this is testsssssss')
     var regEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/ ;
     var regNumber = /^[0-9]*$/;
     console.log(req.body.id)

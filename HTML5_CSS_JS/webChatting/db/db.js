@@ -1,6 +1,6 @@
 var mysql = require('mysql')
 var connection = null
-var data = new Object();
+var data ;
 function dbConnection(){
        connection = mysql.createConnection({
         host:'localhost',
@@ -12,24 +12,24 @@ function dbConnection(){
     connection.connect()
     return connection;
 }
-function selectId(id){
+function selectId(id, callBack){
 
-    connection.query(`SELECT id FROM users WHERE id='${id}'`,returnData);
-
-    return data;
-
-}
-function returnData(err, rows, fields) {
-    
+    connection.query(`SELECT id FROM users WHERE id='${id}'`,(err, rows, fields) =>{
+        
     if(!err){
-        data.result = rows;   
-        console.log('returnData :' + data.result)
-        }
+        data = rows;   
+        module.exports['data'] = data ;
+        console.log(`db : ${data}`)   
+        callBack(data)
+    }
     else {
             console.log(err)
         }
     
-    return data;
+    });
+
+    
+
 }
 function insertUser( id, pw, name, email, number){
     connection.query(`
@@ -47,4 +47,5 @@ module.exports = {
     connect:dbConnection,
     selectId:selectId,
     insertUser:insertUser,
+  
 };
