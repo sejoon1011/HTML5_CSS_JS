@@ -7,7 +7,21 @@ setTimeout(()=>{
     var change = document.getElementById('change')
     change.addEventListener('click', setEmailOrNumber)
     $('#id').blur(duplicateCheck)
+    $('#auth').blur(regularExpression)
 
+    function regularExpression(){
+        var auth = $('#auth').val();
+        var className = document.getElementById('auth').getAttribute('class')
+
+        if('number' == className){
+            $('#auth').css('background',' #ff4321');
+
+        } else if($('#email') !== undefined){
+            console.log('email');
+            
+        }
+
+    }
 
     function duplicateCheck(){
         $.ajax({
@@ -36,15 +50,14 @@ setTimeout(()=>{
         var change = document.getElementById('change')
         
         if(flag){
-            decide = document.getElementById('number')
-            decide.setAttribute('id', 'email')
-            // decide.setAttribute('name', 'email')
+            decide = document.getElementById('auth')
+            decide.setAttribute('class', 'email')
             decide.setAttribute('placeholder', 'your email')
             change.innerHTML = 'I want to use my number instead'
             flag = false
         }else{
-            decide = document.getElementById('email')
-            decide.setAttribute('id', 'number')
+            decide = document.getElementById('auth')
+            decide.setAttribute('class', 'number')
             // decide.setAttribute('name', 'number')
             decide.setAttribute('placeholder', 'your number')
             change.innerHTML = 'I want to use my email instead'
