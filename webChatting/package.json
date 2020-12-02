@@ -1,0 +1,31 @@
+{
+  "name": "chatting",
+  "version": "1.0.0",
+  "description": "chatting app",
+  "main": "app.js",
+  "scripts": {
+    "test": "hello"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sejoon1011/HTML5_CSS_JS.git"
+  },
+  "keywords": [
+    "Chatting"
+  ],
+  "author": "hello",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sejoon1011/HTML5_CSS_JS/issues"
+  },
+  "homepage": "https://github.com/sejoon1011/HTML5_CSS_JS#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "jquery": "^3.5.1",
+    "mariadb": "^2.5.1",
+    "mysql": "^2.18.1",
+    "socket.io": "^3.0.1",
+    "socketio": "^1.0.0"
+  }
+}

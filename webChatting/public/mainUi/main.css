@@ -1,0 +1,72 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+body{
+    background-color: blanchedalmond;
+}
+#firstLogo{
+    position: absolute;
+    padding-top: 20%;
+    padding-left: 40%;
+    font-family: fantasy;
+    color: #FC21A1;
+    font-size: 50px;
+    width: 100%;
+    height: 100%;
+    background-color: #eeeeee;
+    z-index: 1;
+}
+#header{
+    position: absolute;
+    padding-left:10px;
+    background-color: #FC21A1;
+    width: 100%;
+    height: 50px;
+    font-size: 45px;
+}
+#logo{
+    font-family: fantasy;
+    color: #fcfafa;
+}
+#body{
+    position: relative;
+    padding-top: 52px ;
+    padding-left: 450px;
+}
+#join{
+    padding-top: 100px;
+}
+#join input{
+    width: 500px;
+    height: 60px;
+    border: none;
+    border-radius: 10px;
+    margin-top: 5px;
+}
+#joinSubmit{
+    width:75px;
+    /* position: absolute; */
+    margin-left: 0;
+}
+@media (max-height: 641px) and (max-width: 361px){
+    #firstLogo{
+        padding-left: 29%;
+        padding-top: 55%;
+    }
+    #body{
+        padding-left: 50px;
+    }
+    #join input{
+        width:300px
+    }
+    #join{
+        padding-left: 0;
+    }
+    #joinSubmit{
+        /* width: 25px; */
+        margin-left: 0%;
+    }
+
+
+}
