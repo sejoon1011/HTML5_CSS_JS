@@ -6,7 +6,7 @@ body{
     background-color: blanchedalmond;
 }
 #header{
-    background-color: #FC21A1;
+    background-color: lightgray;
     font-family: fantasy;
     font-size: 300%;
     color: seashell;
@@ -39,7 +39,7 @@ body{
     margin-top: 3%;
     width: 10%;
     height: 65px;
-    background-color:   #FC21A1;
+    background-color:   lightgray;
     border:none;
     border-radius: 10px;
     font-family: fantasy;

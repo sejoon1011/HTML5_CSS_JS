@@ -1,5 +1,7 @@
 var flag = true
 window.onload= () =>{
+
+  
 setTimeout(()=>{
     var firstLogo = document.getElementById('firstLogo');
     firstLogo.style.display = 'none';

@@ -67,11 +67,7 @@ app.post('/join',(req, res) => {
 io.on('connection', function(socket){
     
     socket.on('join', (data) => {
-        //for(var i = 0 ; i < room_name.length; i++){
-        //    if(room_name[i].room_name == data.room_name)
-        //        socket.emit('reJoin', {message : 'this name already exists'})
-        //        return
-        //    }
+    
         roomName = data.roomName
         room_name[count] = {
             roomName : roomName,
@@ -87,7 +83,7 @@ io.on('connection', function(socket){
         names[count] = name.comment
         socket.in(roomName).emit('members', {member : names[count]})
         count += 1
-/        console.log(`in join ` + name.comment)
+        console.log(`in join ` + name.comment)
         var message =` '${name.comment}' participated in the chat`
         socket.in(roomName).emit(`updateMessage`, {
             name : 'server',

@@ -71,7 +71,6 @@ window.onload = function(){
         body.appendChild(p)
         p.style.backgroundColor = '#ADE23F'
         p.style.borderRadius = '10px 100px 100px 100px'
-        //p.innerHTML = `<Strong>`+ data.from + "</strong> <br>" + data.message
         p.innerHTML = `<Strong>`+ data.name + "</strong> <br>" + data.message
         }
     })
@@ -100,12 +99,9 @@ window.onload = function(){
             to : roomName
         })
         
-        //서버로 메세지 전송
-        //socket.emit('SEND',{
-        //    name: name,
-        //    message : text
-        //})
-        window.scrollTo({top:body.offsetTop, behavior:'smooth'})
+ 
+       
+       window.scrollTo({top:body.offsetTop, behavior:'smooth'})
  
         }
     }
