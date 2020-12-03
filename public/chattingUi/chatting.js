@@ -1,5 +1,5 @@
 var io = io()
-//var socket = io.connect('http://localhost:3000')
+var socket = io.connect('http://localhost:3000')
 var socket = io.connect('https://thesns.herokuapp.com/chatting')
 window.onload = function(){
 
