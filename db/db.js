@@ -1,14 +1,14 @@
 var mysql = require('mysql')
 var connection = null
 var data ;
-// function dbConnection(){
-//        connection = mysql.createConnection({
-//         host:'localhost',
-//         post: 3000,
-//         user: 'root',
-//         password: 'tpwns1011',
-//         database: 'sns'
-//     })
+function dbConnection(){
+    //    connection = mysql.createConnection({
+    //     host:'localhost',
+    //     post: 3000,
+    //     user: 'root',
+    //     password: 'tpwns1011',
+    //     database: 'sns'
+    // })
     connection = mysql.createConnection({
         host:'us-cdbr-east-02.cleardb.com',
         post: 3306,
