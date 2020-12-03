@@ -1,6 +1,6 @@
 var io = io()
-//ar socket = io.connect('http://localhost:3000')
-var socket = io.connect('https://thesns.herokuapp.com/chatting')
+var socket = io.connect('http://localhost:3000')
+//var socket = io.connect('https://thesns.herokuapp.com/chatting')
 window.onload = function(){
 
     //server에 유저 이름을 보내주기 위한 입력
