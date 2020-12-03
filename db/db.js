@@ -9,6 +9,13 @@ function dbConnection(){
         password: 'tpwns1011',
         database: 'sns'
     })
+    connection = mysql.createConnection({
+        host:'us-cdbr-east-02.cleardb.com',
+        post: 3000,
+        user: 'b89dad7272a7b9',
+        password: '17d0d32c',
+        database: 'heroku_1b3b232092e971f'
+    })
     connection.connect()
     return connection;
 }
