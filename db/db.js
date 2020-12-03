@@ -1,6 +1,13 @@
 var mysql = require('mysql')
 var connection = null
 var data ;
+    connection = mysql.createConnection({
+        host:'us-cdbr-east-02.cleardb.com',
+        post: 3306,
+        user: 'b89dad7272a7b9',
+        password: '17d0d32c',
+        database: 'heroku_1b3b232092e971f'
+    })
 function dbConnection(){
     //    connection = mysql.createConnection({
     //     host:'localhost',
@@ -9,16 +16,10 @@ function dbConnection(){
     //     password: 'tpwns1011',
     //     database: 'sns'
     // })
-    connection = mysql.createConnection({
-        host:'us-cdbr-east-02.cleardb.com',
-        post: 3306,
-        user: 'b89dad7272a7b9',
-        password: '17d0d32c',
-        database: 'heroku_1b3b232092e971f'
-    })
     connection.connect()
     return connection;
 }
+
 connection.on('error' , function(err){
     if(err.code === 'PROTOCOL_CONNECTION_LOST'){ // db connection이 끊어졌을때 재 연결을 위한 코드
         dbConnection()
