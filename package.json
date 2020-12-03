@@ -22,6 +22,7 @@
   "homepage": "https://github.com/sejoon1011/HTML5_CSS_JS#readme",
   "dependencies": {
     "body-parser": "^1.19.0",
+    "cool-ascii-faces": "1.3.4",
     "express": "^4.17.1",
     "jquery": "^3.5.1",
     "mariadb": "^2.5.1",
@@ -29,8 +30,8 @@
     "socket.io": "^3.0.1",
     "socketio": "^1.0.0"
   },
-  "engines" :{
+  "engines": {
     "node": "14.13.1 ",
     "npm": "6.14.8"
-  } 
+  }
 }
