@@ -27,5 +27,10 @@
     "mysql": "^2.18.1",
     "socket.io": "^3.0.1",
     "socketio": "^1.0.0"
-  }
+  },
+  "engines" :{
+    "node": "14.13.1 ",
+    "npm": "6.14.8"
+  },
+  "start": "node app.js" 
 }
