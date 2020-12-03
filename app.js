@@ -19,11 +19,12 @@ var count = 0
 var roomName = null
 var room_name = new Array()//사용자가 어떤 방에 있는지 식별하기 위한 json 타입 변수
 var serveStatic = require('serve-static')
+var cool = require('cool-ascii-faces');
 
 app.get('/cool', function(request, response) {
     response.send(cool());
   });
-  
+
 app.use(serveStatic(path.join(__dirname, 'dist')))
 app.set('port', process.env.PORT || 3000) 
 //chatting ui 가져오기
