@@ -19,6 +19,14 @@ function dbConnection(){
     connection.connect()
     return connection;
 }
+connection.on('error' , function(err){
+    if(err.code === 'PROTOCOL_CONNECTION_LOST'){ // db connection이 끊어졌을때 재 연결을 위한 코드
+        dbConnection()
+    }
+    else{
+        throw err
+    }
+})
 function selectId(id, callBack){
 
     connection.query(`SELECT id FROM users WHERE id='${id}'`,(err, rows, fields) =>{
