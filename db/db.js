@@ -41,10 +41,18 @@ function selectId(id, callBack){
     else {
             console.log(err)
         }
-    
-    });
+     });    
+}
+function selectEmail(email, callBack){
+    connection.query(`select email from users where email=${email}`, (err, rows, fields) => {
+        if(!err){
+            
+            module.exports['data'] = rows;
+            console.log(rows)
+            callBack(rows)
 
-    
+        }
+    })
 
 }
 function insertUser( id, pw, name, email, number){
@@ -59,9 +67,24 @@ function insertUser( id, pw, name, email, number){
         }
     })
 }
+function insertEmail(email){
+    connection.query(`
+        INSERT INTO email VALUES(?)`,
+        [email],
+        function(err, rows, fields){
+            if(err){
+                console.log(`err:${err}`)
+        
+            }
+        }
+        )
+        
+    }
+
 module.exports = {
     connect:dbConnection,
     selectId:selectId,
+    selectEmail:selectEmail,
     insertUser:insertUser,
-  
+    insertEmail:insertEmail
 };
