@@ -51,16 +51,21 @@
             background: rgb(210, 210, 210);
             width: 100%;
             height: 10%;
+            font-weight: bold;
+            font-size: 10%;
+            color: #121212;
+            border: black 3px;
+            padding-top: 1%;
+
         }
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
         window.onload = () =>{
-        $('#email').keypress(checkEmail)
+        $('#email').keyup(checkEmail)
         
         function checkEmail(){
 
-          console.log('afsd')
         $.ajax({
             url: '/checkemail',
             type: 'post',
@@ -68,14 +73,20 @@
                 'email': $('#email').val()
             },
             success: (data) => {
+                var regEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/
                 if(data.data == 1){
-                    $('#error').val() = 'Your email already exists'
-                    $('#error').css('color', '#930000')
+                    $('#error').text('Your email already exists')
+                    $('#error').css('color', '#FF0000')
                     $('#email').val('')
-                }else{
+                }
+                else if (!regEmail.test($('#email').val())){
+                    $('#error').text('Put your email properly')
+                    $('#error').css('color', '#F70000')
+                }
+                else{
                     console.log(data)
-                    $('#error').val() = 'You can use the email'
-                    $('#error').css('color', '#009300')
+                    $('#error').text('You can use this email')
+                    $('#error').css('color', '#00F700')
                 }
             }
         })
@@ -105,11 +116,16 @@
             Thank you for visit!
         </div>
         <form action="/" method="POST">
-            <input type="text" placeholder="Email" id="email" name="email">
+            <input type="text" placeholder="Email" id="email" name="email" required>
             <input type="submit" id="submit" value="register">
             <p id='error'></p>
         </form>
     </div>
-    <div id="footer">ss</div>
+    <div id="footer">
+        insta sejoon9895 <br>
+        email sejoon1011@naver.com<br>
+        copyright 2020.Sejoon Park.All rights reserved
+
+    </div>
 </body>
 </html>

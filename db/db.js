@@ -24,6 +24,9 @@ connection.on('error' , function(err){
     if(err.code === 'PROTOCOL_CONNECTION_LOST'){ // db connection이 끊어졌을때 재 연결을 위한 코드
         dbConnection()
     }
+    else if(err.code === 'PROTOCOL_ENQUEUE_AFTER_FATAL_ERROR'){
+        dbConnection()
+    }
     else{
         throw err
     }
@@ -34,8 +37,7 @@ function selectId(id, callBack){
         
     if(!err){
         data = rows;   
-        module.exports['data'] = data ;
-        console.log(`db : ${data}`)   
+        module.exports['data'] = data ;  
         callBack(data)
     }
     else {
@@ -44,13 +46,14 @@ function selectId(id, callBack){
      });    
 }
 function selectEmail(email, callBack){
-    connection.query(`select email from users where email=${email}`, (err, rows, fields) => {
-        if(!err){
-            
+    connection.query(`SELECT email FROM email WHERE email='${email}'`, (err, rows, fields) => {
+        if(!err){     
             module.exports['data'] = rows;
-            console.log(rows)
             callBack(rows)
 
+        }
+        else{
+            console.log(err)
         }
     })
 

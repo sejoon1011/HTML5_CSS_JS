@@ -23,10 +23,31 @@ var cool = require('cool-ascii-faces');
 var session = require('express-session')
 const { data } = require('jquery')
 
-app.get('/cool', function(request, response) {
-    response.send(cool());
-  });
 
+function getDataFromDb(res, id){
+      var data
+      db.selectId(id, (result) => {
+          data = result;
+          if (data.length > 0) res.send({data : 1})
+          else if (data.length == 0) res.send({data: 0});
+        })
+  }
+  
+  function getEmailFromDB(res, email){
+      db.selectEmail(email, (result) => {
+
+          if(result.length > 0) {
+              res.send({data : 1})
+          }
+          else if(result.length == 0){
+              res.send({data : 0})
+            }
+            
+      })
+    }
+    app.get('/cool', function(request, response) {
+        response.send(cool());
+      });
 app.use(serveStatic(path.join(__dirname, 'dist')))
 app.set('port', process.env.PORT || 3000) 
 //chatting ui 가져오기
@@ -40,36 +61,13 @@ app.get('/join', (req, res) => {
 })
 //getDataFromDb -> db.selectId -> 
 //connection.query의 익명함수의 파라미터인 콜백함수 사용 -> 프론트엔드로 데이터 전송
-app.post('/join/checkId', (req, res) =>{
-    var data  
+app.post('/join/checkId', (req, res) =>{  
     getDataFromDb(res,req.body.id)
 })
 app.post('/checkemail', (req, res)=> {
-    getEmailFromDB(res, req.body.eamil)
+    let email = req.body.email
+    getEmailFromDB(res, email)
 })
-function getDataFromDb(res, id){
-    var data
-    db.selectId(id, (result) => {
-        data = result;
-        console.log(data.length)
-        if (data.length > 0) res.send({data : 1})
-        else if (data.length == 0) res.send({data: 0});
-    })
-}
-
-function getEmailFromDB(res, email){
-    db.selectEmail(email, (result) => {
-        if(data.length > 0) {
-            res.send({data : 1})
-            console.log('1')
-        }
-        else if(data.length == 0){
-            res.send({data : 0})
-            console.log('0')
-        }
-
-    })
-}
 
 app.use(session({
             secret: 'asdfwqef',
@@ -84,45 +82,8 @@ app.get('/', (req, res) => {
 
 // 사용자 사전 등록을 위한 프로세스
 app.post('/', (req, res) => {
+    res.sendFile(__dirname + '/public/process/registerEmail.html')
 
-    var regEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/
-    let viewCount = req.session.check;
-    getEmailFromDB(res, req.body.email)
-    if(req.body.email === null || req.body.email === undefined){
-        // res.redirect('/')
-        req.session.check = false
-        console.log(req.session.test)
-        res.send(` 
-        <script>
-        alert(\"Thank you for registering!\")
-        </script>
-        `
-        )
-        
-    }
-    
-    else if(!regEmail.test(req.body.email)){
-        req.session.check = false
-        // res.redirect('/')
-        res.send(` 
-        <script>
-        alert(\"Something is wrong. Please put it properly\")
-        </script>
-        `
-        )
-    }
-    else{
-        req.session.check = true
-        db.insertEmail(req.body.email)
-        //res.redirect('/')
-         
-        res.send(` 
-        <script>
-        alert(\"Thank you for registering")
-        </script>
-        `
-        )
-    }
 })
 
 
@@ -134,7 +95,6 @@ app.get('/chatting',(req, res) =>{
 app.post('/join',(req, res) => {
     var regEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/ ;
     var regNumber = /^[0-9]*$/;
-    console.log(req.body.id)
     if(regEmail.test(req.body.numberOrEmail)){
       db.insertUser(req.body.id, req.body.pw, req.body.numberOrEmail, null)
     }

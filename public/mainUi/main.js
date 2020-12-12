@@ -33,7 +33,6 @@ setTimeout(()=>{
                 'id': $('#id').val()
             },
             success: (data) =>{
-                console.log(data)
                 if (data.data == 1){
 
                     $('#id').css('background-color', 'red');
